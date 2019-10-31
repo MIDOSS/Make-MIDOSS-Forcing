@@ -1,0 +1,34 @@
+# conda environment description file for Make-MIDOSS-Forcing package
+# development environment
+#
+# Create a conda environment for development, testing and documentation of the package
+# with:
+#
+#   $ conda env create -f Make-MIDOSS-Forcing/env/environment-dev.yaml
+#   $ source activate make-midoss-forcing
+#   (make-midoss-forcing)$ pip install --editable Make-MIDOSS-Forcing
+#
+# See the env/requirements.txt file for an exhaustive list of all of the
+# packages installed in the environment and their versions used in
+# recent development.
+
+name: make-midoss-forcing
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - pip
+  - python=3.7
+
+  # For coding style
+  - black
+
+  # For unit tests
+  - coverage
+  - pytest
+
+  # For documentation
+  - sphinx
+  - sphinx_rtd_theme

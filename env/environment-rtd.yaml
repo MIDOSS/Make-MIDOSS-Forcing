@@ -1,0 +1,15 @@
+# conda environment description file for readthedocs build environment
+
+name: make-midoss-forcing-rtd
+
+channels:
+  - defaults
+
+dependencies:
+  - python=3.7
+
+  # RTD packages
+  - mock
+  - pillow
+  - sphinx
+  - sphinx_rtd_theme
