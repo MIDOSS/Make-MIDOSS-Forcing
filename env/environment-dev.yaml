@@ -19,8 +19,13 @@ channels:
   - defaults
 
 dependencies:
+  - h5py
+  - numpy
   - pip
   - python=3.7
+  - python-dateutil
+  - pyyaml
+  - xarray
 
   # For coding style
   - black
