@@ -116,6 +116,25 @@ def produce_datearray(datetimelist):
     return datearrays
 
 
+def unstagger_dataarray(vel_component, coordinate):
+    """Interpolate u, v, or w velocity component values to values at grid cell centres.
+
+    Named indexing requires that input arrays are xarray.DataArray objects.
+
+    :arg vel_component: u, v, or w component values
+    :type vel_component: :py:class:`xarray.DataArray`
+
+    :arg str coordinate: Name of coordinate along which to centre
+                     (generally 'x', 'y', or 'depthw' for NEMO results files,
+                      or 'gridX', 'gridY', or 'depth' for ERDDAP datasets)
+
+    :returns qty: u, v, or w component values at grid cell centres
+    :rtype: :py:class:`xarray.DataArray`
+    """
+    vel_component = (vel_component + vel_component.shift(**{coordinate: 1})) / 2
+    return vel_component
+
+
 def process_grid(
     file_paths,
     datatype,
@@ -143,7 +162,7 @@ def process_grid(
         datearrays = produce_datearray(datetimelist)
         del datetimelist
         if datatype is "ocean_velocity_u":
-            data = viz_tools.unstagger_xarray(data.vozocrtx, "x").values
+            data = unstagger_dataarray(data.vozocrtx, "x").values
             data = mung_array(data, "3D")
             metadata = {
                 "FillValue": numpy.array([0.0]),
@@ -152,7 +171,7 @@ def process_grid(
                 "Units": b"m/s",
             }
         elif datatype is "ocean_velocity_v":
-            data = viz_tools.unstagger_xarray(data.vomecrty, "y").values
+            data = unstagger_dataarray(data.vomecrty, "y").values
             data = mung_array(data, "3D")
             metadata = {
                 "FillValue": numpy.array([0.0]),
