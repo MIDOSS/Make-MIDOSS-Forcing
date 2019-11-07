@@ -26,6 +26,7 @@ dependencies:
   - python-dateutil
   - pyyaml
   - xarray
+  - netCDF4
 
   # For coding style
   - black
