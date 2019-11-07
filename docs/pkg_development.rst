@@ -89,7 +89,7 @@ or
     $ hg clone https://your_userid@bitbucket.org/midoss/make-midoss-forcing Make-MIDOSS-Forcing
 
 if you don't have `ssh key authentication`_ set up on Bitbucket
-(replace :kbd:`you_userid` with you Bitbucket userid,
+(replace :kbd:`you_userid` with your Bitbucket userid,
 or copy the link from the :guilabel:`Clone` action pop-up on the `repository`_ page).
 
 .. _ssh key authentication: https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html
@@ -106,9 +106,9 @@ you can create and activate an environment called :kbd:`make-midoss-forcing` tha
 testing,
 and building the documentation with the commands below.
 
-.. _Conda: https://conda.io/docs/
-.. _Anaconda Python Distribution: https://www.anaconda.com/download/
-.. _Miniconda3: https://conda.io/docs/install/quick.html
+.. _Conda: https://conda.io/en/latest/
+.. _Anaconda Python Distribution: https://www.anaconda.com/distribution/
+.. _Miniconda3: https://docs.conda.io/en/latest/miniconda.html
 
 .. code-block:: bash
 
@@ -153,7 +153,9 @@ To run :command:`black` on the entire code-base use:
 in the repository root directory.
 The output looks something like::
 
-  **add example black output**
+  reformatted /media/doug/warehouse/MIDOSS/Make-MIDOSS-Forcing/make_midoss_forcing/forcing_paths.py
+  All done! ✨ 🍰 ✨
+  1 file reformatted, 6 files left unchanged.
 
 
 .. _Make-MIDOSS-ForcingBuildingTheDocumentation:
@@ -181,7 +183,27 @@ use:
 to do a clean build of the documentation.
 The output looks something like::
 
-  **add example Sphinx output**
+  Running Sphinx v2.2.1
+  making output directory... done
+  building [mo]: targets for 0 po files that are out of date
+  building [html]: targets for 2 source files that are out of date
+  updating environment: [new config] 2 added, 0 changed, 0 removed
+  reading sources... [100%] pkg_development
+  looking for now-outdated files... none found
+  pickling environment... done
+  checking consistency... done
+  preparing documents... done
+  writing output... [100%] pkg_development
+  generating indices...  genindexdone
+  writing additional pages...
+  done
+  copying static files... ... done
+  copying extra files... done
+  dumping search index in English (code: en)... done
+  dumping object inventory... done
+  build succeeded.
+
+  The HTML pages are in _build/html.
 
 The HTML rendering of the docs ends up in :file:`docs/_build/html/`.
 You can open the :file:`index.html` file in that directory tree in your browser to preview the results of the build.
@@ -206,7 +228,52 @@ use:
 
 The output looks something like::
 
-  **add example linkcheck output**
+  Running Sphinx v2.2.1
+  loading pickled environment... done
+  building [mo]: targets for 0 po files that are out of date
+  building [linkcheck]: targets for 2 source files that are out of date
+  updating environment: 0 added, 1 changed, 0 removed
+  reading sources... [100%] pkg_development
+  looking for now-outdated files... none found
+  pickling environment... done
+  checking consistency... done
+  preparing documents... done
+  writing output... [ 50%] index
+  (line   37) ok        https://img.shields.io/badge/license-Apache%202-cb2533.svg
+  (line   37) ok        https://www.apache.org/licenses/LICENSE-2.0
+  (line   47) ok        https://www.apache.org/licenses/LICENSE-2.0
+  writing output... [100%] pkg_development
+  (line   21) ok        https://docs.python.org/3.7/
+  (line   55) ok        https://www.python.org/
+  (line   59) ok        https://docs.python.org/3/reference/lexical_analysis.html#f-strings
+  (line   61) ok        https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep519
+  (line   21) ok        https://black.readthedocs.io/en/stable/
+  (line   21) ok        https://bitbucket.org/midoss/make-midoss-forcing/
+  (line   21) ok        https://bitbucket.org/midoss/make-midoss-forcing/issues?status=new&status=open
+  (line  103) ok        https://conda.io/en/latest/
+  (line   21) ok        https://make-midoss-forcing.readthedocs.io/en/latest/
+  (line   71) ok        https://bitbucket.org/midoss/make-midoss-forcing/
+  (line  138) ok        https://www.python.org/dev/peps/pep-0008/
+  (line  164) ok        https://make-midoss-forcing.readthedocs.io/en/latest/
+  (line  103) ok        https://docs.conda.io/en/latest/miniconda.html
+  (line   77) ok        https://bitbucket.org/midoss/make-midoss-forcing/
+  (line  211) ok        https://make-midoss-forcing.readthedocs.io/en/latest/
+  (line  170) ok        http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+  (line  170) ok        http://www.sphinx-doc.org/en/master/
+  (line  103) ok        https://www.anaconda.com/distribution/
+  (line  241) ok        https://docs.pytest.org/en/latest/
+  (line   21) ok        https://img.shields.io/badge/python-3.6+-blue.svg
+  (line   21) ok        https://img.shields.io/badge/version%20control-hg-blue.svg
+  (line  259) ok        https://coverage.readthedocs.io/en/latest/
+  (line   21) ok        https://img.shields.io/badge/code%20style-black-000000.svg
+  (line   21) ok        https://readthedocs.org/projects/make-midoss-forcing/badge/?version=latest
+  (line  301) ok        https://img.shields.io/bitbucket/issues/midoss/make-midoss-forcing.svg
+  (line  307) ok        https://bitbucket.org/midoss/make-midoss-forcing/issues
+  (line   91) ok        https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html
+  (line  293) ok        https://www.mercurial-scm.org/
+  (line   21) ok        https://img.shields.io/bitbucket/issues/midoss/make-midoss-forcing.svg
+
+  build finished.
 
 Look for any errors in the above output or in _build/linkcheck/output.txt
 
