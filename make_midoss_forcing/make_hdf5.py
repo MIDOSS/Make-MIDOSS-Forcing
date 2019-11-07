@@ -22,7 +22,6 @@ import time
 from dateutil.parser import parse
 import h5py
 import numpy
-from salishsea_tools import viz_tools
 import xarray
 import yaml
 
