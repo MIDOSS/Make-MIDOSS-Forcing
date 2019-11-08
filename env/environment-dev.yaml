@@ -20,13 +20,13 @@ channels:
 
 dependencies:
   - h5py
+  - netCDF4
   - numpy
   - pip
   - python=3.7
   - python-dateutil
   - pyyaml
   - xarray
-  - netCDF4
 
   # For coding style
   - black
