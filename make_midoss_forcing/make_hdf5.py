@@ -148,6 +148,7 @@ def process_grid(
         data = xarray.open_dataset(file_path)
         if datatype in (
             "mean_wave_period",
+            "mean_wave_length",
             "significant_wave_height",
             "whitecap_coverage",
             "stokesU",
@@ -186,6 +187,15 @@ def process_grid(
                 "Maximum": numpy.array([5.0]),
                 "Minimum": numpy.array([-5.0]),
                 "Units": b"m/s",
+            }
+        elif datatype is "vert_eddy_diff":
+            data = data.vert_eddy_diff.values
+            data = mung_array(data, "3D")
+            metadata = {
+                "FillValue": numpy.array([0.0]),
+                "Maximum": numpy.array([5.0]),
+                "Minimum": numpy.array([0.0]),
+                "Units": b"m2/s",
             }
         elif datatype is "salinity":
             data = data.vosaline.values
@@ -251,6 +261,16 @@ def process_grid(
                 "Minimum": numpy.array([0.0]),
                 "Units": b"s",
             }
+        elif datatype is "mean_wave_length":
+            data = data.lm.values
+            data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
+            data = mung_array(data, "2D")
+            metadata = {
+                "FillValue": numpy.array([0.0]),
+                "Maximum": numpy.array([3200.0]),
+                "Minimum": numpy.array([0.0]),
+                "Units": b"m",
+            }
         elif datatype is "significant_wave_height":
             data = data.hs.values
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
@@ -310,7 +330,7 @@ def write_grid(
     data, datearrays, metadata, filename, groupname, accumulator, compression_level
 ):
     shape = data[0].shape
-    with h5py.File(filename) as f:
+    with h5py.File(filename,'a') as f:
         time_group = f.get("/Time")
         if time_group is None:
             time_group = f.create_group("/Time")
@@ -430,6 +450,9 @@ def create_hdf5():
         vertical_velocity = salish_seacast_forcing.get("vertical_velocity").get(
             "hdf5_filename"
         )
+        diffusivity = salish_seacast_forcing.get("diffusivity").get(
+            "hdf5_filename"
+        )
         salinity = salish_seacast_forcing.get("salinity").get("hdf5_filename")
         temperature = salish_seacast_forcing.get("temperature").get("hdf5_filename")
         sea_surface_height = salish_seacast_forcing.get("sea_surface_height").get(
@@ -441,6 +464,7 @@ def create_hdf5():
             currents_u,
             currents_v,
             vertical_velocity,
+            diffusivity,
             salinity,
             temperature,
             sea_surface_height,
@@ -481,6 +505,7 @@ def create_hdf5():
 
     whitecap_coverage = wavewatch3_forcing.get("whitecap_coverage").get("hdf5_filename")
     mean_wave_period = wavewatch3_forcing.get("mean_wave_period").get("hdf5_filename")
+    mean_wave_length = wavewatch3_forcing.get("mean_wave_length").get("hdf5_filename")
     significant_wave_height = wavewatch3_forcing.get("significant_wave_height").get(
         "hdf5_filename"
     )
@@ -490,6 +515,7 @@ def create_hdf5():
     for parameter in (
         whitecap_coverage,
         mean_wave_period,
+        mean_wave_length,
         significant_wave_height,
         stokesU,
         stokesV,
@@ -548,6 +574,12 @@ def create_hdf5():
             )
             if not vertical_velocity_list:
                 return
+        if diffusivity is not None:
+            diffusivity_list = forcing_paths.salishseacast_paths(
+                date_begin, date_end, salishseacast_path, "grid_W"
+            )
+            if not diffusivity_list:
+                return
         if temperature is not None:
             temperature_list = forcing_paths.salishseacast_paths(
                 date_begin, date_end, salishseacast_path, "grid_T"
@@ -593,6 +625,12 @@ def create_hdf5():
                 date_begin, date_end, wavewatch3_path
             )
             if not mean_wave_period_list:
+                return
+        if mean_wave_length is not None:
+            mean_wave_length_list = forcing_paths.ww3_paths(
+                date_begin, date_end, wavewatch3_path
+            )
+            if not mean_wave_length_list:
                 return
         if significant_wave_height is not None:
             significant_wave_height_list = forcing_paths.ww3_paths(
@@ -670,6 +708,14 @@ def create_hdf5():
                 "velocity W",
                 compression_level,
             )
+        if diffusivity is not None:
+            process_grid(
+                diffusivity_list,
+                "vert_eddy_diff",
+                dirname + diffusivity,
+                "Diffusivity",
+                compression_level,
+            )
         if temperature is not None:
             process_grid(
                 temperature_list,
@@ -731,6 +777,15 @@ def create_hdf5():
                 "mean_wave_period",
                 dirname + mean_wave_period,
                 "mean wave period",
+                compression_level,
+                wave_weights,
+            )
+        if mean_wave_length is not None:
+            process_grid(
+                mean_wave_length_list,
+                "mean_wave_length",
+                dirname + mean_wave_length,
+                "mean wave length",
                 compression_level,
                 wave_weights,
             )
