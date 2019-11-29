@@ -154,7 +154,7 @@ def process_grid(
             "stokesU",
             "stokesV",
         ):
-            datetimelist = data.time.values.astype("datetime64[s]").astype(datetime)
+            datetimelist = data.time.values[1::2].astype("datetime64[s]").astype(datetime)
         else:
             datetimelist = data.time_counter.values.astype("datetime64[s]").astype(
                 datetime
@@ -252,7 +252,7 @@ def process_grid(
                 "Units": b"m/s",
             }
         elif datatype is "mean_wave_period":
-            data = data.t02.values
+            data = data.t02.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -262,7 +262,7 @@ def process_grid(
                 "Units": b"s",
             }
         elif datatype is "mean_wave_length":
-            data = data.lm.values
+            data = data.lm.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -272,7 +272,7 @@ def process_grid(
                 "Units": b"m",
             }
         elif datatype is "significant_wave_height":
-            data = data.hs.values
+            data = data.hs.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -282,7 +282,7 @@ def process_grid(
                 "Units": b"m",
             }
         elif datatype is "whitecap_coverage":
-            data = data.wcc.values
+            data = data.wcc.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -292,7 +292,7 @@ def process_grid(
                 "Units": b"1",
             }
         elif datatype is "stokesU":
-            data = data.uuss.values
+            data = data.uuss.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -302,7 +302,7 @@ def process_grid(
                 "Units": b"m s-1",
             }
         elif datatype is "stokesV":
-            data = data.vuss.values
+            data = data.vuss.values[1::2,:,:]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
