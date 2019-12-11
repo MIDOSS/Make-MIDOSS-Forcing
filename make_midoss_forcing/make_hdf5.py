@@ -154,7 +154,9 @@ def process_grid(
             "stokesU",
             "stokesV",
         ):
-            datetimelist = data.time.values[1::2].astype("datetime64[s]").astype(datetime)
+            datetimelist = (
+                data.time.values[1::2].astype("datetime64[s]").astype(datetime)
+            )
         else:
             datetimelist = data.time_counter.values.astype("datetime64[s]").astype(
                 datetime
@@ -252,7 +254,7 @@ def process_grid(
                 "Units": b"m/s",
             }
         elif datatype is "mean_wave_period":
-            data = data.t02.values[1::2,:,:]
+            data = data.t02.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -262,7 +264,7 @@ def process_grid(
                 "Units": b"s",
             }
         elif datatype is "mean_wave_length":
-            data = data.lm.values[1::2,:,:]
+            data = data.lm.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -272,7 +274,7 @@ def process_grid(
                 "Units": b"m",
             }
         elif datatype is "significant_wave_height":
-            data = data.hs.values[1::2,:,:]
+            data = data.hs.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -282,7 +284,7 @@ def process_grid(
                 "Units": b"m",
             }
         elif datatype is "whitecap_coverage":
-            data = data.wcc.values[1::2,:,:]
+            data = data.wcc.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -292,7 +294,7 @@ def process_grid(
                 "Units": b"1",
             }
         elif datatype is "stokesU":
-            data = data.uuss.values[1::2,:,:]
+            data = data.uuss.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -302,7 +304,7 @@ def process_grid(
                 "Units": b"m s-1",
             }
         elif datatype is "stokesV":
-            data = data.vuss.values[1::2,:,:]
+            data = data.vuss.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
             metadata = {
@@ -330,7 +332,7 @@ def write_grid(
     data, datearrays, metadata, filename, groupname, accumulator, compression_level
 ):
     shape = data[0].shape
-    with h5py.File(filename,'a') as f:
+    with h5py.File(filename, "a") as f:
         time_group = f.get("/Time")
         if time_group is None:
             time_group = f.create_group("/Time")
@@ -450,9 +452,7 @@ def create_hdf5():
         vertical_velocity = salish_seacast_forcing.get("vertical_velocity").get(
             "hdf5_filename"
         )
-        diffusivity = salish_seacast_forcing.get("diffusivity").get(
-            "hdf5_filename"
-        )
+        diffusivity = salish_seacast_forcing.get("diffusivity").get("hdf5_filename")
         salinity = salish_seacast_forcing.get("salinity").get("hdf5_filename")
         temperature = salish_seacast_forcing.get("temperature").get("hdf5_filename")
         sea_surface_height = salish_seacast_forcing.get("sea_surface_height").get(
