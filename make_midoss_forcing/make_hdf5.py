@@ -394,7 +394,6 @@ mask = mung_array(
 
 @timer
 def create_hdf5():
-    script = sys.argv[0]
     yaml_filename = sys.argv[1]
     with open(yaml_filename, "r") as f:
         run_description = yaml.safe_load(f)
