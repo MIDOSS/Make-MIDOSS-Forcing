@@ -308,7 +308,7 @@ def process_grid(
                 "FillValue": numpy.array([0.0]),
                 "Maximum": numpy.array([9900.0]),
                 "Minimum": numpy.array([-9900.0]),
-                "Units": b"m s-1",
+                "Units": b"m/s",
             }
         elif datatype is "stokesV":
             data = data.vuss.values[1::2, :, :]
@@ -318,7 +318,7 @@ def process_grid(
                 "FillValue": numpy.array([0.0]),
                 "Maximum": numpy.array([9900.0]),
                 "Minimum": numpy.array([-9900.0]),
-                "Units": b"m s-1",
+                "Units": b"m/s",
             }
         write_grid(
             data,
