@@ -17,4 +17,9 @@
 import setuptools
 
 
-setuptools.setup()
+setuptools.setup(
+    entry_points="""
+    [console_scripts]
+    make-hdf5=make_midoss_forcing.cli:make_hdf5_cli
+    """
+)

@@ -13,8 +13,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import errno
+import functools
 import os
 import sys
 import time
@@ -25,25 +26,23 @@ import numpy
 import xarray
 import yaml
 
-import forcing_paths
-import mohid_interpolate
+from make_midoss_forcing import forcing_paths, mohid_interpolate
 
 
-def timer(func):
-    """Decorator function for timing function calls
-    """
-
-    def f(*args, **kwargs):
-        beganat = time.time()
-        rv = func(*args, *kwargs)
-        elapsed = time.time() - beganat
+def function_timer(func):
+    @functools.wraps(func)
+    def wrapper_function_timer(*args, **kwargs):
+        t_start = time.time()
+        return_value = func(*args, **kwargs)
+        t_end = time.time()
+        elapsed = t_end - t_start
         hours = int(elapsed / 3600)
         mins = int((elapsed - (hours * 3600)) / 60)
         secs = int((elapsed - (hours * 3600) - (mins * 60)))
-        print("\nTime elapsed: {}:{}:{}\n".format(hours, mins, secs))
-        return rv
+        print(f"\nTime elapsed: {hours}:{mins}:{secs}\n")
+        return return_value
 
-    return f
+    return wrapper_function_timer
 
 
 def mung_array(SSC_gridded_array, array_slice_type):
@@ -392,38 +391,26 @@ mask = mung_array(
 )
 
 
-@timer
-def create_hdf5():
-    yaml_filename = sys.argv[1]
+@function_timer
+def create_hdf5(yaml_filename, start_date, n_days):
+    """Create HDF5 forcing files for a MIDOSS-MOHID run.
+
+    YAML_FILENAME: File path/name of YAML file to control HDF5 forcing files creation.
+
+    [%Y-%m-%d]: Date on which to start HDF5 forcing files creation.
+
+    N_DAYS: Number of days plus 1 of HDF5 forcing to create in each file.
+            Use 1 to create 2 days of forcing which is what is required for a 1 day MOHID run.
+    \f
+
+    :type yaml_filename: str
+    :type start_date: :py:class:`datetime.datetime`
+    :type n_days: int
+    """
     with open(yaml_filename, "r") as f:
         run_description = yaml.safe_load(f)
-    try:
-        timerange = run_description["timerange"]
-        try:
-            date_begin = timerange["date_begin"]
-            date_begin = parse(date_begin)
-        except KeyError:
-            print("date_begin not found")
-            return
-        except ValueError:
-            print(f"Invalid date_begin input: {date_begin}")
-
-        try:
-            date_end = timerange["date_end"]
-            date_end = parse(date_end)
-        except KeyError:
-            print("date_end not found")
-            return
-        except ValueError:
-            print(f"Invalid date_end input: {date_end}")
-
-    except KeyError:
-        print("timerange not found")
-        return
-
-    if numpy.diff([date_begin, date_end])[0].days <= 0:
-        print(f"\nInvalid input. date_begin comes after date_end")
-        return
+    date_begin = start_date
+    date_end = date_begin + timedelta(days=n_days)
 
     try:
         paths = run_description["paths"]
@@ -818,4 +805,7 @@ def create_hdf5():
 
 
 if __name__ == "__main__":
-    create_hdf5()
+    yaml_filename, start_date, n_days = sys.argv[1:]
+    start_date = parse(start_date)
+    n_days = int(n_days)
+    create_hdf5(yaml_filename, start_date, n_days)
