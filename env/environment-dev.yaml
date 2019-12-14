@@ -19,6 +19,7 @@ channels:
   - defaults
 
 dependencies:
+  - click
   - h5py
   - netCDF4
   - numpy
