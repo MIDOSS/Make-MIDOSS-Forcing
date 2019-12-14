@@ -349,10 +349,7 @@ def write_grid(
             data_group = f.create_group(data_group_path)
 
         for i, datearray in enumerate(datearrays):
-            numeric_attribute = ((5 - len(str(i + accumulator))) * "0") + str(
-                i + accumulator
-            )
-            child_name = "Time_" + numeric_attribute
+            child_name = f"Time_{i + accumulator:05d}"
             timestamp = time_group.get(child_name)
             if timestamp is None:
                 dataset = time_group.create_dataset(
@@ -374,7 +371,7 @@ def write_grid(
                     numpy.asarray(timestamp) == datearray
                 ).all(), f"Time record {child_name} exists and does not match with {datearray}"
 
-            child_name = groupname + "_" + numeric_attribute
+            child_name = f"{groupname}_{i + accumulator:05d}"
             if data_group.get(child_name) is not None:
                 print(f"Dataset already exists at {child_name}")
             else:
