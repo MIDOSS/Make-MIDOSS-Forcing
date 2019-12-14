@@ -39,7 +39,7 @@ def function_timer(func):
         hours = int(elapsed / 3600)
         mins = int((elapsed - (hours * 3600)) / 60)
         secs = int((elapsed - (hours * 3600) - (mins * 60)))
-        print(f"\nTime elapsed: {hours}:{mins}:{secs}\n")
+        print(f"\nTime elapsed: {hours:02d}:{mins:02d}:{secs:02d}\n")
         return return_value
 
     return wrapper_function_timer
