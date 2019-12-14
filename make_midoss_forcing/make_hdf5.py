@@ -428,23 +428,33 @@ def create_hdf5(yaml_filename, start_date, n_days):
     hrdps_forcing = run_description.get("hrdps_forcing")
     wavewatch3_forcing = run_description.get("wavewatch3_forcing")
 
+    hdf5_files = set()
+
     if salish_seacast_forcing is not None:
         currents_u = salish_seacast_forcing.get("currents").get(
             "currents_u_hdf5_filename"
         )
+        hdf5_files.add(currents_u)
         currents_v = salish_seacast_forcing.get("currents").get(
             "currents_v_hdf5_filename"
         )
+        hdf5_files.add(currents_v)
         vertical_velocity = salish_seacast_forcing.get("vertical_velocity").get(
             "hdf5_filename"
         )
+        hdf5_files.add(vertical_velocity)
         diffusivity = salish_seacast_forcing.get("diffusivity").get("hdf5_filename")
+        hdf5_files.add(diffusivity)
         salinity = salish_seacast_forcing.get("salinity").get("hdf5_filename")
+        hdf5_files.add(salinity)
         temperature = salish_seacast_forcing.get("temperature").get("hdf5_filename")
+        hdf5_files.add(temperature)
         sea_surface_height = salish_seacast_forcing.get("sea_surface_height").get(
             "hdf5_filename"
         )
+        hdf5_files.add(sea_surface_height)
         e3t = salish_seacast_forcing.get("e3t").get("hdf5_filename")
+        hdf5_files.add(e3t)
 
         for parameter in (
             currents_u,
@@ -465,7 +475,9 @@ def create_hdf5(yaml_filename, start_date, n_days):
                     return
 
     wind_u = hrdps_forcing.get("winds").get("wind_u_hdf5_filename")
+    hdf5_files.add(wind_u)
     wind_v = hrdps_forcing.get("winds").get("wind_v_hdf5_filename")
+    hdf5_files.add(wind_v)
 
     for parameter in (wind_u, wind_v):
         if parameter is not None:
@@ -490,13 +502,21 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 wind_weights = mohid_interpolate.weighting_matrix(wind_weights_path)
 
     whitecap_coverage = wavewatch3_forcing.get("whitecap_coverage").get("hdf5_filename")
+    hdf5_files.add(whitecap_coverage)
     mean_wave_period = wavewatch3_forcing.get("mean_wave_period").get("hdf5_filename")
+    hdf5_files.add(mean_wave_period)
     mean_wave_length = wavewatch3_forcing.get("mean_wave_length").get("hdf5_filename")
+    hdf5_files.add(mean_wave_length)
     significant_wave_height = wavewatch3_forcing.get("significant_wave_height").get(
         "hdf5_filename"
     )
+    hdf5_files.add(significant_wave_height)
     stokesU = wavewatch3_forcing.get("stokesU").get("hdf5_filename")
+    hdf5_files.add(stokesU)
     stokesV = wavewatch3_forcing.get("stokesV").get("hdf5_filename")
+    hdf5_files.add(stokesV)
+
+    hdf5_files.discard(None)
 
     for parameter in (
         whitecap_coverage,
@@ -665,8 +685,11 @@ def create_hdf5(yaml_filename, start_date, n_days):
             if exc.errno != errno.EEXIST:
                 print(exc.errno)
                 return
-
-    print(f"\nOutput directory {dirname} created\n")
+    print(f"\nOutput directory {dirname} created")
+    for hdf5_file in hdf5_files:
+        hdf5_path = os.path.join(dirname, hdf5_file)
+        with h5py.File(hdf5_path, "w"):
+            print(f"{hdf5_path} created")
 
     # Now that everything is in place, we can start generating the .hdf5 files
     if salish_seacast_forcing is not None:
