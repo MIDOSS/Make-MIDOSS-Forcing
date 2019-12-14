@@ -229,7 +229,7 @@ def process_grid(
                 "3D",
             )
             data = data * tmask
-            metadata = {"FillValue": numpy.array([0.0]), "Units": b"?C"}
+            metadata = {"FillValue": numpy.array([0.0]), "Units": b"m"}
 
         elif datatype is "sea_surface_height":
             data = data.sossheig.values
