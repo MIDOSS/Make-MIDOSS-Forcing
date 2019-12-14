@@ -220,7 +220,15 @@ def process_grid(
         elif datatype is "e3t":
             data = data.e3t.values
             data = mung_array(data, "3D")
-            data = data * mask
+            tmask = mung_array(
+                xarray.open_dataset(
+                    "https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02"
+                )
+                .isel(time=0)
+                .tmask.values,
+                "3D",
+            )
+            data = data * tmask
             metadata = {"FillValue": numpy.array([0.0]), "Units": b"?C"}
 
         elif datatype is "sea_surface_height":
@@ -379,16 +387,6 @@ def write_grid(
                     compression_opts=compression_level,
                 )
                 dataset.attrs.update(metadata)
-
-
-mask = mung_array(
-    xarray.open_dataset(
-        "https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02"
-    )
-    .isel(time=0)
-    .tmask.values,
-    "3D",
-)
 
 
 @function_timer
