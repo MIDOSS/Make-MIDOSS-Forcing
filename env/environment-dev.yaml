@@ -19,6 +19,7 @@ channels:
   - defaults
 
 dependencies:
+  - bottleneck
   - click
   - h5py
   - netCDF4
