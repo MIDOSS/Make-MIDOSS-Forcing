@@ -130,7 +130,6 @@ def ww3_paths(timestart, timeend, path):
         12: "dec",
     }
     daterange = [timestart, timeend]
-    hindcast = "hindcast" in path
     # append all filename strings within daterange to list
     wave_files = []
     for day in range(numpy.diff(daterange)[0].days + 1):
@@ -143,9 +142,8 @@ def ww3_paths(timestart, timeend, path):
             day = f"0{str(day)}"
 
         year = str(datestamp.year)[2:4]
-        if hindcast:
-            wave_path = f"{path}{day}{monthnm}{year}/SoG_ww3_fields_{datestr2}.nc"
-        else:
+        wave_path = f"{path}{day}{monthnm}{year}/SoG_ww3_fields_{datestr2}.nc"
+        if not os.path.exists(wave_path):
             wave_path = (
                 f"{path}{day}{monthnm}{year}/SoG_ww3_fields_{datestr2}_{datestr2}.nc"
             )
