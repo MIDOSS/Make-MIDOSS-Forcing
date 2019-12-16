@@ -119,14 +119,14 @@ def unstagger_dataarray(vel_component, coordinate):
 
     Named indexing requires that input arrays are xarray.DataArray objects.
 
-    :arg vel_component: u, v, or w component values
+    :arg vel_component: u, v, or w component values.
     :type vel_component: :py:class:`xarray.DataArray`
 
     :arg str coordinate: Name of coordinate along which to centre
-                     (generally 'x', 'y', or 'depthw' for NEMO results files,
-                      or 'gridX', 'gridY', or 'depth' for ERDDAP datasets)
+                         (generally 'x', 'y', or 'depthw' for NEMO results files,
+                         or 'gridX', 'gridY', or 'depth' for ERDDAP datasets).
 
-    :returns qty: u, v, or w component values at grid cell centres
+    :returns qty: u, v, or w component values at grid cell centres.
     :rtype: :py:class:`xarray.DataArray`
     """
     vel_component = (vel_component + vel_component.shift(**{coordinate: 1})) / 2
@@ -143,6 +143,14 @@ def process_grid(
 ):
     accumulator = 1
     print(f"Writing {groupname} to {filename}...")
+    tmask = mung_array(
+        xarray.open_dataset(
+            "https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02"
+        )
+        .isel(time=0)
+        .tmask.values,
+        "3D",
+    )
     for file_path in file_paths:
         data = xarray.open_dataset(file_path)
         if datatype in (
@@ -220,14 +228,6 @@ def process_grid(
         elif datatype is "e3t":
             data = data.e3t.values
             data = mung_array(data, "3D")
-            tmask = mung_array(
-                xarray.open_dataset(
-                    "https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02"
-                )
-                .isel(time=0)
-                .tmask.values,
-                "3D",
-            )
             data = data * tmask
             metadata = {"FillValue": numpy.array([0.0]), "Units": b"m"}
 
