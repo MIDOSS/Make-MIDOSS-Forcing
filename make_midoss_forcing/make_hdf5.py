@@ -75,11 +75,11 @@ def mung_array(SSC_gridded_array, array_slice_type):
             3,
         ), f"The shape of the array given is {shape}, while the option chosen was {array_slice_type}"
         if ndims == 2:
-            MOHID_gridded_array = SSC_gridded_array[1:897:, 1:397]
+            MOHID_gridded_array = SSC_gridded_array[1:-1:, 1:-1]
             del SSC_gridded_array
             MOHID_gridded_array = numpy.transpose(MOHID_gridded_array, [1, 0])
         else:
-            MOHID_gridded_array = SSC_gridded_array[..., 1:897:, 1:397]
+            MOHID_gridded_array = SSC_gridded_array[..., 1:-1:, 1:-1]
             del SSC_gridded_array
             MOHID_gridded_array = numpy.transpose(MOHID_gridded_array, [0, 2, 1])
 
