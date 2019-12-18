@@ -133,14 +133,7 @@ def unstagger_dataarray(vel_component, coordinate):
     return vel_component
 
 
-def process_grid(
-    file_paths,
-    datatype,
-    filename,
-    groupname,
-    compression_level,
-    weighting_matrix_obj=None,
-):
+def process_grid(file_paths, datatype, filename, groupname, weighting_matrix_obj=None):
     accumulator = 1
     print(f"Writing {groupname} to {filename}...")
     tmask = mung_array(
@@ -320,24 +313,14 @@ def process_grid(
                 "Minimum": numpy.array([-9900.0]),
                 "Units": b"m/s",
             }
-        write_grid(
-            data,
-            datearrays,
-            metadata,
-            filename,
-            groupname,
-            accumulator,
-            compression_level,
-        )
+        write_grid(data, datearrays, metadata, filename, groupname, accumulator)
         accumulator += len(datearrays)
 
 
 # RuntimeError: Unable to create link (name already exists)
 
 
-def write_grid(
-    data, datearrays, metadata, filename, groupname, accumulator, compression_level
-):
+def write_grid(data, datearrays, metadata, filename, groupname, accumulator):
     shape = data[0].shape
     with h5py.File(filename, "a") as f:
         time_group = f.get("/Time")
@@ -353,12 +336,7 @@ def write_grid(
             timestamp = time_group.get(child_name)
             if timestamp is None:
                 dataset = time_group.create_dataset(
-                    child_name,
-                    shape=(6,),
-                    data=datearray,
-                    chunks=(6,),
-                    compression="gzip",
-                    compression_opts=compression_level,
+                    child_name, shape=(6,), data=datearray
                 )
                 time_metadata = {
                     "Maximum": numpy.array(datearray[0]),
@@ -376,12 +354,7 @@ def write_grid(
                 print(f"Dataset already exists at {child_name}")
             else:
                 dataset = data_group.create_dataset(
-                    child_name,
-                    shape=shape,
-                    data=data[i],
-                    chunks=shape,
-                    compression="gzip",
-                    compression_opts=compression_level,
+                    child_name, shape=shape, data=data[i]
                 )
                 dataset.attrs.update(metadata)
 
@@ -542,19 +515,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
             else:
                 wave_weights = mohid_interpolate.weighting_matrix(wave_weights_path)
 
-    try:
-        compression_level = int(run_description.get("hdf5_compression_level", 4))
-        if not (1 <= compression_level <= 9):
-            print(
-                "Invalid compression level: {} provided. Compression level is int[1,9]. Default is 4"
-            )
-            return
-    except ValueError:
-        print(
-            "Invalid compression level: {} provided. Compression level is int[1,9]. Default is 4"
-        )
-        return
-
     # Make sure all the source files are available
     if salish_seacast_forcing is not None:
         if currents_u is not None:
@@ -690,19 +650,11 @@ def create_hdf5(yaml_filename, start_date, n_days):
     if salish_seacast_forcing is not None:
         if currents_u is not None:
             process_grid(
-                currents_u_list,
-                "ocean_velocity_u",
-                dirname + currents_u,
-                "velocity U",
-                compression_level,
+                currents_u_list, "ocean_velocity_u", dirname + currents_u, "velocity U"
             )
         if currents_v is not None:
             process_grid(
-                currents_v_list,
-                "ocean_velocity_v",
-                dirname + currents_v,
-                "velocity V",
-                compression_level,
+                currents_v_list, "ocean_velocity_v", dirname + currents_v, "velocity V"
             )
         if vertical_velocity is not None:
             process_grid(
@@ -710,42 +662,26 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "ocean_velocity_w",
                 dirname + vertical_velocity,
                 "velocity W",
-                compression_level,
             )
         if diffusivity is not None:
             process_grid(
-                diffusivity_list,
-                "vert_eddy_diff",
-                dirname + diffusivity,
-                "Diffusivity",
-                compression_level,
+                diffusivity_list, "vert_eddy_diff", dirname + diffusivity, "Diffusivity"
             )
         if temperature is not None:
             process_grid(
-                temperature_list,
-                "temperature",
-                dirname + temperature,
-                "temperature",
-                compression_level,
+                temperature_list, "temperature", dirname + temperature, "temperature"
             )
         if salinity is not None:
-            process_grid(
-                salinity_list,
-                "salinity",
-                dirname + salinity,
-                "salinity",
-                compression_level,
-            )
+            process_grid(salinity_list, "salinity", dirname + salinity, "salinity")
         if sea_surface_height is not None:
             process_grid(
                 sea_surface_height_list,
                 "sea_surface_height",
                 dirname + sea_surface_height,
                 "water level",
-                compression_level,
             )
         if e3t is not None:
-            process_grid(e3t_list, "e3t", dirname + e3t, "vvl", compression_level)
+            process_grid(e3t_list, "e3t", dirname + e3t, "vvl")
     if hrdps_forcing is not None:
         if wind_u is not None:
             process_grid(
@@ -753,7 +689,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "wind_velocity_u",
                 dirname + wind_u,
                 "wind velocity X",
-                compression_level,
                 wind_weights,
             )
         if wind_v is not None:
@@ -762,7 +697,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "wind_velocity_v",
                 dirname + wind_v,
                 "wind velocity Y",
-                compression_level,
                 wind_weights,
             )
     if wavewatch3_forcing is not None:
@@ -772,7 +706,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "whitecap_coverage",
                 dirname + whitecap_coverage,
                 "whitecap coverage",
-                compression_level,
                 wave_weights,
             )
         if mean_wave_period is not None:
@@ -781,7 +714,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "mean_wave_period",
                 dirname + mean_wave_period,
                 "mean wave period",
-                compression_level,
                 wave_weights,
             )
         if mean_wave_length is not None:
@@ -790,7 +722,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "mean_wave_length",
                 dirname + mean_wave_length,
                 "mean wave length",
-                compression_level,
                 wave_weights,
             )
         if significant_wave_height is not None:
@@ -799,26 +730,15 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "significant_wave_height",
                 dirname + significant_wave_height,
                 "significant wave height",
-                compression_level,
                 wave_weights,
             )
         if stokesU is not None:
             process_grid(
-                stokesU_list,
-                "stokesU",
-                dirname + stokesU,
-                "Stokes U",
-                compression_level,
-                wave_weights,
+                stokesU_list, "stokesU", dirname + stokesU, "Stokes U", wave_weights
             )
         if stokesV is not None:
             process_grid(
-                stokesV_list,
-                "stokesV",
-                dirname + stokesV,
-                "Stokes V",
-                compression_level,
-                wave_weights,
+                stokesV_list, "stokesV", dirname + stokesV, "Stokes V", wave_weights
             )
 
 
