@@ -317,9 +317,6 @@ def process_grid(file_paths, datatype, filename, groupname, weighting_matrix_obj
         accumulator += len(datearrays)
 
 
-# RuntimeError: Unable to create link (name already exists)
-
-
 def write_grid(data, datearrays, metadata, filename, groupname, accumulator):
     shape = data[0].shape
     with h5py.File(filename, "a") as f:
