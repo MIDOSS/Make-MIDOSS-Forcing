@@ -97,7 +97,7 @@ def mung_array(SSC_gridded_array, array_slice_type):
             MOHID_gridded_array = numpy.transpose(MOHID_gridded_array, [0, 1, 3, 2])
             MOHID_gridded_array = numpy.flip(MOHID_gridded_array, axis=1)
 
-    MOHID_gridded_array = numpy.nan_to_num(MOHID_gridded_array).astype("float64")
+    MOHID_gridded_array = numpy.nan_to_num(MOHID_gridded_array).astype("float32")
 
     return MOHID_gridded_array
 
