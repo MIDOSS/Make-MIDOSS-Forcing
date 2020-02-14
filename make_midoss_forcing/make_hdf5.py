@@ -385,7 +385,6 @@ def create_hdf5(yaml_filename, start_date, n_days):
         output_path = paths.get("output")
         wind_weights_path = paths.get("wind_weights")
         wave_weights_path = paths.get("wave_weights")
-
     except KeyError:
         print("No forcing file paths given")
 
@@ -647,44 +646,58 @@ def create_hdf5(yaml_filename, start_date, n_days):
     if salish_seacast_forcing is not None:
         if currents_u is not None:
             process_grid(
-                currents_u_list, "ocean_velocity_u", dirname + currents_u, "velocity U"
+                currents_u_list,
+                "ocean_velocity_u",
+                os.path.join(dirname, currents_u),
+                "velocity U",
             )
         if currents_v is not None:
             process_grid(
-                currents_v_list, "ocean_velocity_v", dirname + currents_v, "velocity V"
+                currents_v_list,
+                "ocean_velocity_v",
+                os.path.join(dirname, currents_v),
+                "velocity V",
             )
         if vertical_velocity is not None:
             process_grid(
                 vertical_velocity_list,
                 "ocean_velocity_w",
-                dirname + vertical_velocity,
+                os.path.join(dirname, vertical_velocity),
                 "velocity W",
             )
         if diffusivity is not None:
             process_grid(
-                diffusivity_list, "vert_eddy_diff", dirname + diffusivity, "Diffusivity"
+                diffusivity_list,
+                "vert_eddy_diff",
+                os.path.join(dirname, diffusivity),
+                "Diffusivity",
             )
         if temperature is not None:
             process_grid(
-                temperature_list, "temperature", dirname + temperature, "temperature"
+                temperature_list,
+                "temperature",
+                os.path.join(dirname, temperature),
+                "temperature",
             )
         if salinity is not None:
-            process_grid(salinity_list, "salinity", dirname + salinity, "salinity")
+            process_grid(
+                salinity_list, "salinity", os.path.join(dirname, salinity), "salinity"
+            )
         if sea_surface_height is not None:
             process_grid(
                 sea_surface_height_list,
                 "sea_surface_height",
-                dirname + sea_surface_height,
+                os.path.join(dirname, sea_surface_height),
                 "water level",
             )
         if e3t is not None:
-            process_grid(e3t_list, "e3t", dirname + e3t, "vvl")
+            process_grid(e3t_list, "e3t", os.path.join(dirname, e3t), "vvl")
     if hrdps_forcing is not None:
         if wind_u is not None:
             process_grid(
                 wind_u_list,
                 "wind_velocity_u",
-                dirname + wind_u,
+                os.path.join(dirname, wind_u),
                 "wind velocity X",
                 wind_weights,
             )
@@ -692,7 +705,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
             process_grid(
                 wind_v_list,
                 "wind_velocity_v",
-                dirname + wind_v,
+                os.path.join(dirname, wind_v),
                 "wind velocity Y",
                 wind_weights,
             )
@@ -701,7 +714,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
             process_grid(
                 whitecap_coverage_list,
                 "whitecap_coverage",
-                dirname + whitecap_coverage,
+                os.path.join(dirname, whitecap_coverage),
                 "whitecap coverage",
                 wave_weights,
             )
@@ -709,7 +722,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
             process_grid(
                 mean_wave_period_list,
                 "mean_wave_period",
-                dirname + mean_wave_period,
+                os.path.join(dirname, mean_wave_period),
                 "mean wave period",
                 wave_weights,
             )
@@ -717,7 +730,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
             process_grid(
                 mean_wave_length_list,
                 "mean_wave_length",
-                dirname + mean_wave_length,
+                os.path.join(dirname, mean_wave_length),
                 "mean wave length",
                 wave_weights,
             )
@@ -725,17 +738,25 @@ def create_hdf5(yaml_filename, start_date, n_days):
             process_grid(
                 significant_wave_height_list,
                 "significant_wave_height",
-                dirname + significant_wave_height,
+                os.path.join(dirname, significant_wave_height),
                 "significant wave height",
                 wave_weights,
             )
         if stokesU is not None:
             process_grid(
-                stokesU_list, "stokesU", dirname + stokesU, "Stokes U", wave_weights
+                stokesU_list,
+                "stokesU",
+                os.path.join(dirname, stokesU),
+                "Stokes U",
+                wave_weights,
             )
         if stokesV is not None:
             process_grid(
-                stokesV_list, "stokesV", dirname + stokesV, "Stokes V", wave_weights
+                stokesV_list,
+                "stokesV",
+                os.path.join(dirname, stokesV),
+                "Stokes V",
+                wave_weights,
             )
 
 
