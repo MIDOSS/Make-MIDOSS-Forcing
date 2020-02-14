@@ -629,13 +629,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
 
     # create output directory
     dirname = os.path.join(output_path, folder)
-    if not os.path.exists(os.path.dirname(dirname)):
-        try:
-            os.makedirs(os.path.dirname(dirname))
-        except OSError as exc:
-            if exc.errno != errno.EEXIST:
-                print(exc.errno)
-                return
+    os.makedirs(dirname, exist_ok=True)
     print(f"\nOutput directory {dirname} created")
     for hdf5_file in hdf5_files:
         hdf5_path = os.path.join(dirname, hdf5_file)
