@@ -25,7 +25,7 @@
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: Licensed under the Apache License, Version 2.0
 .. image:: https://img.shields.io/badge/python-3.6+-blue.svg
-    :target: https://docs.python.org/3.7/
+    :target: https://docs.python.org/3.8/
     :alt: Python Version
 .. image:: https://img.shields.io/badge/version%20control-hg-blue.svg
     :target: https://bitbucket.org/midoss/make-midoss-forcing/
@@ -49,10 +49,10 @@ Python Versions
 ===============
 
 .. image:: https://img.shields.io/badge/python-3.6+-blue.svg
-    :target: https://docs.python.org/3.7/
+    :target: https://docs.python.org/3.8/
     :alt: Python Version
 
-The :kbd:`make_midoss_forcing` package is developed and tested using `Python`_ 3.7 or later.
+The :kbd:`make_midoss_forcing` package is developed and tested using `Python`_ 3.8 or later.
 The package uses some Python language features that are not available in versions prior to 3.6,
 in particular:
 
@@ -243,7 +243,7 @@ The output looks something like::
   (line   37) ok        https://www.apache.org/licenses/LICENSE-2.0
   (line   47) ok        https://www.apache.org/licenses/LICENSE-2.0
   writing output... [100%] pkg_development
-  (line   21) ok        https://docs.python.org/3.7/
+  (line   21) ok        https://docs.python.org/3.8/
   (line   55) ok        https://www.python.org/
   (line   59) ok        https://docs.python.org/3/reference/lexical_analysis.html#f-strings
   (line   61) ok        https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep519

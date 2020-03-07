@@ -6,7 +6,7 @@ Make MIDOSS Forcing
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: Licensed under the Apache License, Version 2.0
 .. image:: https://img.shields.io/badge/python-3.6+-blue.svg
-    :target: https://docs.python.org/3.7/
+    :target: https://docs.python.org/3.8/
     :alt: Python Version
 .. image:: https://img.shields.io/badge/version%20control-hg-blue.svg
     :target: https://bitbucket.org/midoss/make-midoss-forcing/

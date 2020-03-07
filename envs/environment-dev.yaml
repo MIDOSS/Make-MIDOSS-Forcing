@@ -25,7 +25,7 @@ dependencies:
   - netCDF4
   - numpy
   - pip
-  - python=3.7
+  - python>=3.6
   - python-dateutil
   - pyyaml
   - xarray
