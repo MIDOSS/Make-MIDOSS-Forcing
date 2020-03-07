@@ -113,7 +113,7 @@ and building the documentation with the commands below.
 .. code-block:: bash
 
     $ cd Make-MIDOSS-Forcing
-    $ conda env create -f env/environment-dev.yaml
+    $ conda env create -f envs/environment-dev.yaml
     $ source activate make-midoss-forcing
     (make-midoss-forcing)$ pip install --editable .
 

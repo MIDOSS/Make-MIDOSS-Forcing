@@ -4,11 +4,11 @@
 # Create a conda environment for development, testing and documentation of the package
 # with:
 #
-#   $ conda env create -f Make-MIDOSS-Forcing/env/environment-dev.yaml
+#   $ conda env create -f Make-MIDOSS-Forcing/envs/environment-dev.yaml
 #   $ source activate make-midoss-forcing
 #   (make-midoss-forcing)$ pip install --editable Make-MIDOSS-Forcing
 #
-# See the env/requirements.txt file for an exhaustive list of all of the
+# See the envs/requirements.txt file for an exhaustive list of all of the
 # packages installed in the environment and their versions used in
 # recent development.
 
