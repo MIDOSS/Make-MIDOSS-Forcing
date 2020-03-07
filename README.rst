@@ -8,17 +8,17 @@ Make MIDOSS Forcing
 .. image:: https://img.shields.io/badge/python-3.6+-blue.svg
     :target: https://docs.python.org/3.8/
     :alt: Python Version
-.. image:: https://img.shields.io/badge/version%20control-hg-blue.svg
-    :target: https://bitbucket.org/midoss/make-midoss-forcing/
-    :alt: Mercurial on Bitbucket
+.. image:: https://img.shields.io/badge/version%20control-git-blue.svg?logo=github
+    :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing
+    :alt: Git on GitHub
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://black.readthedocs.io/en/stable/
     :alt: The uncompromising Python code formatter
 .. image:: https://readthedocs.org/projects/make-midoss-forcing/badge/?version=latest
     :target: https://make-midoss-forcing.readthedocs.io/en/latest/
     :alt: Documentation Status
-.. image:: https://img.shields.io/bitbucket/issues/midoss/make-midoss-forcing.svg
-    :target: https://bitbucket.org/midoss/make-midoss-forcing/issues?status=new&status=open
+.. image:: https://img.shields.io/github/issues/MIDOSS/Make-MIDOSS-Forcing?logo=github
+    :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/issues
     :alt: Issue Tracker
 
 Make Salish Sea HDF5 Forcing Files for MIDOSS Runs
@@ -32,8 +32,10 @@ License
     :alt: Licensed under the Apache License, Version 2.0
 
 The code and documentation of the Make MIDOSS Forcing project
-are copyright 2019-2020 the MIDOSS project contributors, The University of British Columbia,
+are copyright 2019-2020 the `MIDOSS project contributors`_, The University of British Columbia,
 and Dalhousie University.
+
+.. _MIDOSS project contributors: https://github.com/MIDOSS/docs/blob/master/CONTRIBUTORS.rst
 
 They are licensed under the Apache License, Version 2.0.
 https://www.apache.org/licenses/LICENSE-2.0
