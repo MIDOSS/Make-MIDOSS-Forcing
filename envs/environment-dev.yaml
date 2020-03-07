@@ -6,7 +6,7 @@
 #
 #   $ conda env create -f Make-MIDOSS-Forcing/envs/environment-dev.yaml
 #   $ source activate make-midoss-forcing
-#   (make-midoss-forcing)$ pip install --editable Make-MIDOSS-Forcing
+#   (make-midoss-forcing)$ python3 -m pip install --editable Make-MIDOSS-Forcing
 #
 # See the envs/requirements.txt file for an exhaustive list of all of the
 # packages installed in the environment and their versions used in

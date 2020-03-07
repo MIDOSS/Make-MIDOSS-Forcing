@@ -115,7 +115,7 @@ and building the documentation with the commands below.
     $ cd Make-MIDOSS-Forcing
     $ conda env create -f envs/environment-dev.yaml
     $ source activate make-midoss-forcing
-    (make-midoss-forcing)$ pip install --editable .
+    (make-midoss-forcing)$ python3 -m pip install --editable .
 
 The :kbd:`--editable` option in the :command:`pip install` command above installs the package from the cloned repo via symlinks so that the installed package will be automatically updated as the repo evolves.
 
