@@ -13,9 +13,9 @@
 ..  See the License for the specific language governing permissions and
 ..  limitations under the License.
 
-*********************************************
+*********************************
 Make-MIDOSS-Forcing Documentation
-*********************************************
+*********************************
 
 This is the documentation for the :kbd:`make_midoss_forcing` Python package.
 
@@ -24,6 +24,7 @@ This is the documentation for the :kbd:`make_midoss_forcing` Python package.
    :maxdepth: 2
    :caption: Contents:
 
+   commands/index
    pkg_development
 
 Indices
@@ -41,8 +42,10 @@ License
     :alt: Licensed under the Apache License, Version 2.0
 
 The code and documentation of the Make MIDOSS Forcing project
-are copyright 2019-2020 the MIDOSS project contributors, The University of British Columbia,
+are copyright 2019-2020 the `MIDOSS project contributors`_, The University of British Columbia,
 and Dalhousie University.
+
+.. _MIDOSS project contributors: https://github.com/MIDOSS/docs/blob/master/CONTRIBUTORS.rst
 
 They are licensed under the Apache License, Version 2.0.
 https://www.apache.org/licenses/LICENSE-2.0
