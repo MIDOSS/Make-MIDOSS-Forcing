@@ -13,18 +13,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from datetime import datetime, timedelta
-import errno
 import functools
 import os
 import sys
 import time
+from datetime import datetime, timedelta
 
-from dateutil.parser import parse
 import h5py
 import numpy
 import xarray
 import yaml
+from dateutil.parser import parse
 
 from make_midoss_forcing import forcing_paths, mohid_interpolate
 
@@ -755,6 +754,9 @@ def create_hdf5(yaml_filename, start_date, n_days):
 
 
 if __name__ == "__main__":
+    # This stanza exists to provide an entry point for running the code in this module
+    # in an interactive debugger. For normal use, run the code via the make-hdf5 CLI;
+    # run make-hdf5 --help to see how.
     yaml_filename, start_date, n_days = sys.argv[1:]
     start_date = parse(start_date)
     n_days = int(n_days)
