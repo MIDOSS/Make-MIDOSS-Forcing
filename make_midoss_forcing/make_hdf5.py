@@ -378,14 +378,21 @@ def create_hdf5(yaml_filename, start_date, n_days):
 
     try:
         paths = run_description["paths"]
-        salishseacast_path = paths.get("salishseacast")
-        hrdps_path = paths.get("hrdps")
-        wavewatch3_path = paths.get("wavewatch3")
-        output_path = paths.get("output")
-        wind_weights_path = paths.get("wind_weights")
-        wave_weights_path = paths.get("wave_weights")
     except KeyError:
         print("No forcing file paths given")
+
+    salishseacast_path = os.path.expandvars(
+        os.path.expanduser(paths.get("salishseacast"))
+    )
+    hrdps_path = os.path.expandvars(os.path.expanduser(paths.get("hrdps")))
+    wavewatch3_path = os.path.expandvars(os.path.expanduser(paths.get("wavewatch3")))
+    output_path = os.path.expandvars(os.path.expanduser(paths.get("output")))
+    wind_weights_path = os.path.expandvars(
+        os.path.expanduser(paths.get("wind_weights"))
+    )
+    wave_weights_path = os.path.expandvars(
+        os.path.expanduser(paths.get("wave_weights"))
+    )
 
     salish_seacast_forcing = run_description.get("salish_seacast_forcing")
     hrdps_forcing = run_description.get("hrdps_forcing")
