@@ -18,6 +18,29 @@ import h5py
 import os
 import yaml
 
+def wind_speed_dir(u_wind, v_wind):
+    """Calculate wind speed and direction from u and v wind components.
+
+    :kbd:`u_wind` and :kbd:`v_wind` may be either scalar numbers or
+    :py:class:`numpy.ndarray` objects,
+    and the elements of the return value will be of the same type.
+
+    :arg u_wind: u-direction component of wind vector.
+
+    :arg v_wind: v-direction component of wind vector.
+
+    :returns: 2-tuple containing the wind speed and direction.
+              The :py:attr:`speed` attribute holds the wind speed(s),
+              and the :py:attr:`dir` attribute holds the wind
+              direction(s).
+    :rtype: :py:class:`collections.namedtuple`
+    """
+    speed = np.sqrt(u_wind**2 + v_wind**2)
+    dir = np.arctan2(v_wind, u_wind)
+    dir = np.rad2deg(dir + (dir < 0) * 2 * np.pi)
+    speed_dir = namedtuple('speed_dir', 'speed, dir')
+    return speed_dir(speed, dir)
+
 def make_stats_file(path, GridX, GridY, output):
     files =[]
     for r, d, f in os.walk(path):
@@ -51,22 +74,35 @@ def make_stats_file(path, GridX, GridY, output):
                 if group == 'Stokes V':
                     stokesv = timeseries
 
-    windspeed = np.mean(np.array([windx, windy]), axis=0)
+    windspeed, winddir = wind_speed_dir(windx, windy)
     stats_dict['wind speed'] = {'min': "%.4g" % np.min(windspeed),
                                 'max': "%.4g" % np.max(windspeed),
                                 'mean': "%.4g" % np.mean(windspeed),
                                 'std': "%.4g" % np.std(windspeed)}
-    currentsspeed = np.mean(np.array([currentsu, currentsv]), axis=0)
+    stats_dict['wind direction'] = {'min': "%.4g" % np.min(winddir),
+                                'max': "%.4g" % np.max(winddir),
+                                'mean': "%.4g" % np.mean(winddir),
+                                'std': "%.4g" % np.std(winddir)}
+
+    currentsspeed, currentsdir = wind_speed_dir(currentsu, currentsv)
     stats_dict['currents speed'] = {'min': "%.4g" % np.min(currentsspeed),
                                     'max': "%.4g" % np.max(currentsspeed),
                                     'mean': "%.4g" % np.mean(currentsspeed),
                                     'std': "%.4g" % np.std(currentsspeed)}
-    stokesspeed = np.mean(np.array([stokesu, stokesv]), axis=0)
+     stats_dict['currents direction'] = {'min': "%.4g" % np.min(currentsdir),
+                                    'max': "%.4g" % np.max(currentsdir),
+                                    'mean': "%.4g" % np.mean(currentsdir),
+                                    'std': "%.4g" % np.std(currentsdir)}
+    stokesspeed, stokesdir = wind_speed_dir(stokesu, stokesv)
     stats_dict['stokes speed'] = {'min': "%.4g" % np.min(stokesspeed),
                                   'max': "%.4g" % np.max(stokesspeed),
                                   'mean': "%.4g" % np.mean(stokesspeed),
                                   'std': "%.4g" % np.std(stokesspeed)}
-    
+    stats_dict['stokes direction'] = {'min': "%.4g" % np.min(stokesdir),
+                                  'max': "%.4g" % np.max(stokesdir),
+                                  'mean': "%.4g" % np.mean(stokesdir),
+                                  'std': "%.4g" % np.std(stokesdir)}    
+
     del stats_dict['variable']
     with open(output, 'w') as outfile:
         yaml.dump(stats_dict, outfile, default_flow_style=False)
