@@ -41,13 +41,24 @@ def wind_speed_dir(u_wind, v_wind):
     speed_dir = namedtuple('speed_dir', 'speed, dir')
     return speed_dir(speed, dir)
 
-def make_stats_file(path, GridX, GridY, output):
+def make_zeds_to_multi(grid):
+    dz = np.array(grid.variables['e3t_0'])
+    dz = np.squeeze(dz)
+    dz = dz[:,yind,xind]
+    #print(dz)
+    return(dz[0:4])
+
+def make_forcing_statistics(path, GridX, GridY, grid_path=('/data/vdo/MEOPAR/grid/mesh_mask201702.nc', output):
     files =[]
     for r, d, f in os.walk(path):
         for file in f:
             if '.hdf5' in file:
                 files.append(os.path.join(r, file))
     stats_dict = {'variable':{'mean':2, 'min':1, 'max':5, 'std':6}}
+    
+    with open(nc.Dataset(grid_path):
+        zeds_to_multi = make_zeds_to_multi(grid)    
+
     for file in files:
         with h5py.File(file, 'r') as f:
             for group in list(f['Results'].keys()):
@@ -108,4 +119,4 @@ def make_stats_file(path, GridX, GridY, output):
         yaml.dump(stats_dict, outfile, default_flow_style=False)
 
     
-make_stats_file('/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/', 249, 342, '/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/stats.yaml')
+#make_stats_file('/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/', 249, 342, '/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/stats.yaml')
