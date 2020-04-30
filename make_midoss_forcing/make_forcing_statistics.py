@@ -38,26 +38,29 @@ def wind_speed_dir(u_wind, v_wind):
     speed = np.sqrt(u_wind**2 + v_wind**2)
     dir = np.arctan2(v_wind, u_wind)
     dir = np.rad2deg(dir + (dir < 0) * 2 * np.pi)
-    speed_dir = namedtuple('speed_dir', 'speed, dir')
-    return speed_dir(speed, dir)
+    return speed, dir
 
-def make_zeds_to_multi(grid):
-    dz = np.array(grid.variables['e3t_0'])
-    dz = np.squeeze(dz)
-    dz = dz[:,yind,xind]
-    #print(dz)
-    return(dz[0:4])
+def add_to_dict(group, timeseries, dict24, dict168, start_hour):
+    dict24[group] = {'min': "%.4g" % np.min(timeseries[start_hour:start_hour+24]),
+                         'max': "%.4g" % np.max(timeseries[start_hour:start_hour+24]),
+                         'mean': "%.4g" % np.mean(timeseries[start_hour:start_hour+24]),
+                         'std': "%.4g" % np.std(timeseries[start_hour:start_hour+24])}
 
-def make_forcing_statistics(path, GridX, GridY, grid_path=('/data/vdo/MEOPAR/grid/mesh_mask201702.nc', output):
+    dict168[group] = {'min': "%.4g" % np.min(timeseries[start_hour:start_hour+168]),
+                         'max': "%.4g" % np.max(timeseries[start_hour:start_hour+168]),
+                         'mean': "%.4g" % np.mean(timeseries[start_hour:start_hour+168]),
+                         'std': "%.4g" % np.std(timeseries[start_hour:start_hour+168])}
+
+    return dict24, dict168
+
+def make_forcing_statistics(path, GridX, GridY, start_hour):
     files =[]
     for r, d, f in os.walk(path):
         for file in f:
             if '.hdf5' in file:
                 files.append(os.path.join(r, file))
-    stats_dict = {'variable':{'mean':2, 'min':1, 'max':5, 'std':6}}
-    
-    with open(nc.Dataset(grid_path):
-        zeds_to_multi = make_zeds_to_multi(grid)    
+    stats24_dict = {'variable':{'mean':2, 'min':1, 'max':5, 'std':6}}
+    stats168_dict = {'variable':{'mean':2, 'min':1, 'max':5, 'std':6}}
 
     for file in files:
         with h5py.File(file, 'r') as f:
@@ -68,10 +71,7 @@ def make_forcing_statistics(path, GridX, GridY, grid_path=('/data/vdo/MEOPAR/gri
                         timeseries = np.append(timeseries, f['Results'][group][time][-1, GridX, GridY])
                     else:
                         timeseries = np.append(timeseries, f['Results'][group][time][GridX, GridY])
-                stats_dict[group] = {'min': "%.4g" % np.min(timeseries),
-                                     'max': "%.4g" % np.max(timeseries),
-                                     'mean': "%.4g" % np.mean(timeseries), 
-                                     'std': "%.4g" % np.std(timeseries)}
+                stats24_dict, stats168_dict = add_to_dict(group, timeseries, stats24_dict, stats168_dict, start_hour)
                 if group == 'wind velocity X':
                     windx = timeseries
                 if group == 'wind velocity Y':
@@ -86,37 +86,25 @@ def make_forcing_statistics(path, GridX, GridY, grid_path=('/data/vdo/MEOPAR/gri
                     stokesv = timeseries
 
     windspeed, winddir = wind_speed_dir(windx, windy)
-    stats_dict['wind speed'] = {'min': "%.4g" % np.min(windspeed),
-                                'max': "%.4g" % np.max(windspeed),
-                                'mean': "%.4g" % np.mean(windspeed),
-                                'std': "%.4g" % np.std(windspeed)}
-    stats_dict['wind direction'] = {'min': "%.4g" % np.min(winddir),
-                                'max': "%.4g" % np.max(winddir),
-                                'mean': "%.4g" % np.mean(winddir),
-                                'std': "%.4g" % np.std(winddir)}
+    stats24_dict, stats168_dict = add_to_dict('wind speed', windspeed, stats24_dict, stats168_dict, start_hour)
+    stats24_dict, stats168_dict = add_to_dict('wind direction', winddir, stats24_dict, stats168_dict, start_hour)
 
     currentsspeed, currentsdir = wind_speed_dir(currentsu, currentsv)
-    stats_dict['currents speed'] = {'min': "%.4g" % np.min(currentsspeed),
-                                    'max': "%.4g" % np.max(currentsspeed),
-                                    'mean': "%.4g" % np.mean(currentsspeed),
-                                    'std': "%.4g" % np.std(currentsspeed)}
-     stats_dict['currents direction'] = {'min': "%.4g" % np.min(currentsdir),
-                                    'max': "%.4g" % np.max(currentsdir),
-                                    'mean': "%.4g" % np.mean(currentsdir),
-                                    'std': "%.4g" % np.std(currentsdir)}
+    stats24_dict, stats168_dict = add_to_dict('currents speed', currentsspeed, stats24_dict, stats168_dict, start_hour)
+    stats24_dict, stats168_dict = add_to_dict('currents direction', currentsdir, stats24_dict, stats168_dict, start_hour)
+    
     stokesspeed, stokesdir = wind_speed_dir(stokesu, stokesv)
-    stats_dict['stokes speed'] = {'min': "%.4g" % np.min(stokesspeed),
-                                  'max': "%.4g" % np.max(stokesspeed),
-                                  'mean': "%.4g" % np.mean(stokesspeed),
-                                  'std': "%.4g" % np.std(stokesspeed)}
-    stats_dict['stokes direction'] = {'min': "%.4g" % np.min(stokesdir),
-                                  'max': "%.4g" % np.max(stokesdir),
-                                  'mean': "%.4g" % np.mean(stokesdir),
-                                  'std': "%.4g" % np.std(stokesdir)}    
+    stats24_dict, stats168_dict = add_to_dict('stokes speed', stokesspeed, stats24_dict, stats168_dict, start_hour)
+    stats24_dict, stats168_dict = add_to_dict('stokes direction', stokesdir, stats24_dict, stats168_dict, start_hour)
+    
+    del stats24_dict['variable']
+    del stats168_dict['variable']
+    
+    with open(path + '24h_forcing_stats.yaml', 'w') as outfile:
+        yaml.dump(stats24_dict,outfile, default_flow_style=False)
 
-    del stats_dict['variable']
-    with open(output, 'w') as outfile:
-        yaml.dump(stats_dict, outfile, default_flow_style=False)
+    with open(path + '168h_forcing_stats.yaml', 'w') as outfile:
+        yaml.dump(stats168_dict, outfile, default_flow_style=False)
 
     
-#make_stats_file('/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/', 249, 342, '/results2/MIDOSS/forcing/SalishSeaCast/MF0/21nov17-28nov17/stats.yaml')
+make_forcing_statistics('/ocean/vdo/MIDOSS/mohid-forcing/zero_winds/04jan20-11jan20/', 249, 342, 2)
