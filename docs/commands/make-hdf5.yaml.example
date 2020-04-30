@@ -2,23 +2,33 @@
 
 
 paths:
+  # Paths must be absolute.
+  # They may contain:
+  #
+  # * $SCRATCH as an alternative spelling of the user's scratch directory on graham
+  # * $PROJECT as an alternative spelling of the group's project directory on graham
+  # * $USER as an alternative spelling of the user's userid
+  # * ~ or $HOME as alternative spellings of the user's home directory
+  #
+  # Paths with environment variables are strongly recommended for portability and re-usability.
+
   # Absolute path to SalishSeaCast NEMO results collection
-  salishseacast: /project/def-allen/MIDOSS/forcing/nowcast-green.201905/
+  salishseacast: $PROJECT/MIDOSS/forcing/nowcast-green.201905/
   # Absolute path to collection of HRDPS forcing files for SalishSeaCast NEMO runs
-  hrdps: /project/def-allen/SalishSea/forcing/atmospheric/GEM2.5/operational/
+  hrdps: $PROJECT/SalishSea/forcing/atmospheric/GEM2.5/operational/
   # Absolute path to Strait of Georgia WWatch3 results collection
-  wavewatch3: /project/def-allen/MIDOSS/forcing/wwatch3/
+  wavewatch3: $PROJECT/MIDOSS/forcing/wwatch3/
 
   # Absolute path to file containing interpolation weights to transform HRDPS
   # variables values on to MIDOSS-MOHID grid
-  wind_weights: /project/def-allen/dlatorne/MIDOSS/MIDOSS-MOHID-grid/hrdps_interpolation_weights.nc
+  wind_weights: $PROJECT/$USER/MIDOSS/MIDOSS-MOHID-grid/hrdps_interpolation_weights.nc
   # Absolute path to file containing interpolation weights to transform WWatch3
   # variables values on to MIDOSS-MOHID grid
-  wave_weights: /project/def-allen/dlatorne/MIDOSS/MIDOSS-MOHID-grid/wavewatch3_interpolation_weights.nc
+  wave_weights: $PROJECT/$USER/MIDOSS/MIDOSS-MOHID-grid/wavewatch3_interpolation_weights.nc
 
   # Absolute path to directory into which to write HDF5 forcing files
   # that will be generated
-  output: /scratch/dlatorne/MIDOSS/forcing/
+  output: $SCRATCH/MIDOSS/forcing/
 
 
 salish_seacast_forcing:
