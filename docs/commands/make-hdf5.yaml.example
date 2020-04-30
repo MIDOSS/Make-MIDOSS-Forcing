@@ -19,6 +19,15 @@ paths:
   # Absolute path to Strait of Georgia WWatch3 results collection
   wavewatch3: $PROJECT/MIDOSS/forcing/wwatch3/
 
+  # URL or absolute path to SalishSeaCast NEMO mesh mask to read grid parameters from
+  # Use of an ERDDAP URL is preferred.
+  # If the host that make-hdf5 is being run on does not have access to the Internet
+  # (e.g. compute nodes on graham) an absolute path to a mesh mask file
+  # (typically in a clone of the SalishSeaCast-grid repo) may be used.
+  # Environment variable expansion is enabled for the absolute path option;
+  # e.g. salishseacast grid: $PROJECT/$USER/MIDOSS/SalishSeaCast-grid/mesh_mask201702.nc
+  salishseacast grid: https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02
+
   # Absolute path to file containing interpolation weights to transform HRDPS
   # variables values on to MIDOSS-MOHID grid
   wind_weights: $PROJECT/$USER/MIDOSS/MIDOSS-MOHID-grid/hrdps_interpolation_weights.nc
