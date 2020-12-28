@@ -4,8 +4,8 @@
 # Create a virtualenv containing these packages with:
 #
 #    module load python/3.8.2
-#    python3 -m virtualenv --no-download ~/venvs/jupyter
-#    source ~/venvs/jupyter/bin/activate
+#    python3 -m virtualenv --no-download ~/venvs/dev-graham
+#    source ~/venvs/dev-graham/bin/activate
 #    python3 -m pip install -r environment-dev-graham.txt
 
 bottleneck
