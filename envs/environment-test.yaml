@@ -1,0 +1,29 @@
+# conda environment description file for Make-MIDOSS-Forcing package testing environment
+#
+# Creates a conda environment in which the Make-MIDOSS-Forcing package unit tests,
+# coverage analysis, and docs link checking can be run.
+# Primarily intended for creation of a conda env for use in a GitHub Actions workflow.
+
+name: make-midoss-forcing-test
+
+channels:
+  - conda-forge
+
+dependencies:
+  - bottleneck
+  - click
+  - h5py
+  - netCDF4
+  - numpy
+  - pip
+  - python-dateutil
+  - pyyaml
+  - xarray
+
+  # For unit tests
+  - pytest
+  - pytest-cov
+
+  # For documentation
+  - sphinx
+  - sphinx_rtd_theme
