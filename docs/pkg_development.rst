@@ -89,14 +89,13 @@ Development Environment
 =======================
 
 Setting up an isolated development environment using `Conda`_ is recommended.
-Assuming that you have the `Anaconda Python Distribution`_ or `Miniconda3`_ installed,
+Assuming that you have `Miniconda`_ installed,
 you can create and activate an environment called :kbd:`make-midoss-forcing` that will have all of the Python packages necessary for development,
 testing,
 and building the documentation with the commands below.
 
 .. _Conda: https://conda.io/en/latest/
-.. _Anaconda Python Distribution: https://www.anaconda.com/distribution/
-.. _Miniconda3: https://docs.conda.io/en/latest/miniconda.html
+.. _Miniconda: https://docs.conda.io/en/latest/miniconda.html
 
 .. code-block:: bash
 
