@@ -43,7 +43,7 @@ jobs:
       - name: linkcheck
         shell: bash -l {0}
         run: |
-          make linkcheck
+          (cd docs && make linkcheck)
 
       - uses: 8398a7/action-slack@v3
         with:
