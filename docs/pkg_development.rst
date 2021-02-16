@@ -82,17 +82,6 @@ Clone the code and documentation `repository`_ from GitHub with:
 
     $ git clone git@github.com:MIDOSS/Make-MIDOSS-Forcing.git
 
-or
-
-.. code-block:: bash
-
-    $ git clone https://github.com/MIDOSS/Make-MIDOSS-Forcing.git
-
-if you don't have `ssh key authentication`_ set up on GitHub
-(or copy the link from the :guilabel:`Clone or download` button on the `repository`_ page).
-
-.. _ssh key authentication: https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html
-
 
 .. _Make-MIDOSS-ForcingDevelopmentEnvironment:
 
