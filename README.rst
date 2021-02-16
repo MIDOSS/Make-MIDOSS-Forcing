@@ -5,8 +5,8 @@ Make MIDOSS Forcing
 .. image:: https://img.shields.io/badge/license-Apache%202-cb2533.svg
     :target: https://www.apache.org/licenses/LICENSE-2.0
     :alt: Licensed under the Apache License, Version 2.0
-.. image:: https://img.shields.io/badge/python-3.6+-blue.svg
-    :target: https://docs.python.org/3.8/
+.. image:: https://img.shields.io/badge/python-3.8+-blue.svg
+    :target: https://docs.python.org/3.9/
     :alt: Python Version
 .. image:: https://img.shields.io/badge/version%20control-git-blue.svg?logo=github
     :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing
@@ -17,6 +17,9 @@ Make MIDOSS Forcing
 .. image:: https://readthedocs.org/projects/make-midoss-forcing/badge/?version=latest
     :target: https://make-midoss-forcing.readthedocs.io/en/latest/
     :alt: Documentation Status
+.. image:: https://github.com/MIDOSS/Make-MIDOSS-Forcing/workflows/sphinx-linkcheck/badge.svg
+      :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/actions?query=workflow:sphinx-linkcheck
+      :alt: Sphinx linkcheck
 .. image:: https://img.shields.io/github/issues/MIDOSS/Make-MIDOSS-Forcing?logo=github
     :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/issues
     :alt: Issue Tracker

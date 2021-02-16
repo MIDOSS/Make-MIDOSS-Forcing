@@ -36,6 +36,9 @@
 .. image:: https://readthedocs.org/projects/make-midoss-forcing/badge/?version=latest
     :target: https://make-midoss-forcing.readthedocs.io/en/latest/
     :alt: Documentation Status
+.. image:: https://github.com/MIDOSS/Make-MIDOSS-Forcing/workflows/sphinx-linkcheck/badge.svg
+      :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/actions?query=workflow:sphinx-linkcheck
+      :alt: Sphinx linkcheck
 .. image:: https://img.shields.io/github/issues/MIDOSS/Make-MIDOSS-Forcing?logo=github
     :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/issues
     :alt: Issue Tracker
@@ -52,7 +55,8 @@ Python Versions
     :target: https://docs.python.org/3.8/
     :alt: Python Version
 
-The :kbd:`make_midoss_forcing` package is developed and tested using `Python`_ 3.8 or later.
+The :kbd:`make_midoss_forcing` package is developed and tested using `Python`_ 3.9.
+It is intended to work in environments using Python>=3.8.
 The package uses some Python language features that are not available in versions prior to 3.6,
 in particular:
 
@@ -234,6 +238,10 @@ whenever you push changes to Bitbucket the documentation is automatically re-bui
 Link Checking the Documentation
 -------------------------------
 
+.. image:: https://github.com/MIDOSS/Make-MIDOSS-Forcing/workflows/sphinx-linkcheck/badge.svg
+      :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing/actions?query=workflow:sphinx-linkcheck
+      :alt: Sphinx linkcheck
+
 Sphinx also provides a link checker utility which can be run to find broken or redirected links in the docs.
 With your :kbd:`make-midoss-forcing)` environment activated,
 use:
@@ -293,6 +301,10 @@ The output looks something like::
   build finished.
 
 Look for any errors in the above output or in _build/linkcheck/output.txt
+
+:command:`make linkcheck` is run monthly via a `scheduled GitHub Actions workflow`_
+
+.. _scheduled GitHub Actions workflow: https://github.com/MIDOSS/Make-MIDOSS-Forcing/actions?query=workflow%3Asphinx-linkcheck
 
 
 .. _Make-MIDOSS-ForcingRunningTheUnitTests:
