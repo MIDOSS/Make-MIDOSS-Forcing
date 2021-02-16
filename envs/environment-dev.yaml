@@ -33,8 +33,8 @@ dependencies:
   - black
 
   # For unit tests
-  - coverage
   - pytest
+  - pytest-cov
 
   # For documentation
   - sphinx
