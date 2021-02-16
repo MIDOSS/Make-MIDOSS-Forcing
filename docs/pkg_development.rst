@@ -156,8 +156,8 @@ Building the Documentation
 
 The documentation for the :kbd:`Make-MIDOSS-Forcing` package is written in `reStructuredText`_ and converted to HTML using `Sphinx`_.
 
-.. _reStructuredText: http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
-.. _Sphinx: http://www.sphinx-doc.org/en/master/
+.. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+.. _Sphinx: https://www.sphinx-doc.org/en/master/
 
 If you have write access to the `repository`_ on GitHub,
 whenever you push changes to GitHub the documentation is automatically re-built and rendered at https://make-midoss-forcing.readthedocs.io/en/latest/.
@@ -349,7 +349,7 @@ Version Control Repository
     :target: https://github.com/MIDOSS/Make-MIDOSS-Forcing
     :alt: Git on GitHub
 
-The :kbd:`Make-MIDOSS-Forcing` package code and documentation source files are available as a `Git`_ repository at https://bitbucket.org/midoss/make-midoss-forcing/.
+The :kbd:`Make-MIDOSS-Forcing` package code and documentation source files are available as a `Git`_ repository at https://github.com/MIDOSS/Make-MIDOSS-Forcing.
 
 .. _Git: https://git-scm.com/
 
