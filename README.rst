@@ -32,7 +32,7 @@ License
     :alt: Licensed under the Apache License, Version 2.0
 
 The code and documentation of the Make MIDOSS Forcing project
-are copyright 2019-2020 the `MIDOSS project contributors`_, The University of British Columbia,
+are copyright 2019-2021 the `MIDOSS project contributors`_, The University of British Columbia,
 and Dalhousie University.
 
 .. _MIDOSS project contributors: https://github.com/MIDOSS/docs/blob/master/CONTRIBUTORS.rst
