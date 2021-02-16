@@ -1,4 +1,4 @@
-#  Copyright 2019-2020, the MIDOSS project contributors, The University of British Columbia,
+#  Copyright 2019-2021, the MIDOSS project contributors, The University of British Columbia,
 #  and Dalhousie University.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from datetime import timedelta
 import os
+from datetime import timedelta
 
 import numpy
 
