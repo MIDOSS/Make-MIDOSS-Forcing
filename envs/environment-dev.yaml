@@ -16,7 +16,6 @@ name: make-midoss-forcing
 
 channels:
   - conda-forge
-  - defaults
 
 dependencies:
   - bottleneck
