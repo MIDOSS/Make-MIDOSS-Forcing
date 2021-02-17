@@ -132,15 +132,21 @@ def unstagger_dataarray(vel_component, coordinate):
     return vel_component
 
 
-def process_grid(file_paths, datatype, filename, groupname, weighting_matrix_obj=None):
+def process_grid(
+    file_paths,
+    datatype,
+    filename,
+    groupname,
+    salishseacast_grid_path,
+    weighting_matrix_obj=None,
+):
     accumulator = 1
     print(f"Writing {groupname} to {filename}...")
     tmask = mung_array(
-        xarray.open_dataset(
-            "https://salishsea.eos.ubc.ca/erddap/griddap/ubcSSn3DMeshMaskV17-02"
-        )
-        .isel(time=0)
-        .tmask.values,
+        # Exclude the time coordinate from tmask via array indexing so that we don't have to
+        # know the name of the time variable because it differs between file and ERDDAP data
+        # sources
+        xarray.open_dataset(salishseacast_grid_path).tmask[0].values,
         "3D",
     )
     for file_path in file_paths:
@@ -386,13 +392,16 @@ def create_hdf5(yaml_filename, start_date, n_days):
     )
     hrdps_path = os.path.expandvars(os.path.expanduser(paths.get("hrdps")))
     wavewatch3_path = os.path.expandvars(os.path.expanduser(paths.get("wavewatch3")))
-    output_path = os.path.expandvars(os.path.expanduser(paths.get("output")))
+    salishseacast_grid_path = os.path.expandvars(
+        os.path.expanduser(paths.get("salishseacast grid"))
+    )
     wind_weights_path = os.path.expandvars(
         os.path.expanduser(paths.get("wind_weights"))
     )
     wave_weights_path = os.path.expandvars(
         os.path.expanduser(paths.get("wave_weights"))
     )
+    output_path = os.path.expandvars(os.path.expanduser(paths.get("output")))
 
     salish_seacast_forcing = run_description.get("salish_seacast_forcing")
     hrdps_forcing = run_description.get("hrdps_forcing")
@@ -650,6 +659,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "ocean_velocity_u",
                 os.path.join(dirname, currents_u),
                 "velocity U",
+                salishseacast_grid_path,
             )
         if currents_v is not None:
             process_grid(
@@ -657,6 +667,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "ocean_velocity_v",
                 os.path.join(dirname, currents_v),
                 "velocity V",
+                salishseacast_grid_path,
             )
         if vertical_velocity is not None:
             process_grid(
@@ -664,6 +675,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "ocean_velocity_w",
                 os.path.join(dirname, vertical_velocity),
                 "velocity W",
+                salishseacast_grid_path,
             )
         if diffusivity is not None:
             process_grid(
@@ -671,6 +683,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "vert_eddy_diff",
                 os.path.join(dirname, diffusivity),
                 "Diffusivity",
+                salishseacast_grid_path,
             )
         if temperature is not None:
             process_grid(
@@ -678,10 +691,15 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "temperature",
                 os.path.join(dirname, temperature),
                 "temperature",
+                salishseacast_grid_path,
             )
         if salinity is not None:
             process_grid(
-                salinity_list, "salinity", os.path.join(dirname, salinity), "salinity"
+                salinity_list,
+                "salinity",
+                os.path.join(dirname, salinity),
+                "salinity",
+                salishseacast_grid_path,
             )
         if sea_surface_height is not None:
             process_grid(
@@ -689,9 +707,16 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "sea_surface_height",
                 os.path.join(dirname, sea_surface_height),
                 "water level",
+                salishseacast_grid_path,
             )
         if e3t is not None:
-            process_grid(e3t_list, "e3t", os.path.join(dirname, e3t), "vvl")
+            process_grid(
+                e3t_list,
+                "e3t",
+                os.path.join(dirname, e3t),
+                "vvl",
+                salishseacast_grid_path,
+            )
     if hrdps_forcing is not None:
         if wind_u is not None:
             process_grid(
@@ -699,6 +724,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "wind_velocity_u",
                 os.path.join(dirname, wind_u),
                 "wind velocity X",
+                salishseacast_grid_path,
                 wind_weights,
             )
         if wind_v is not None:
@@ -707,6 +733,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "wind_velocity_v",
                 os.path.join(dirname, wind_v),
                 "wind velocity Y",
+                salishseacast_grid_path,
                 wind_weights,
             )
     if wavewatch3_forcing is not None:
@@ -716,6 +743,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "whitecap_coverage",
                 os.path.join(dirname, whitecap_coverage),
                 "whitecap coverage",
+                salishseacast_grid_path,
                 wave_weights,
             )
         if mean_wave_period is not None:
@@ -724,6 +752,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "mean_wave_period",
                 os.path.join(dirname, mean_wave_period),
                 "mean wave period",
+                salishseacast_grid_path,
                 wave_weights,
             )
         if mean_wave_length is not None:
@@ -732,6 +761,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "mean_wave_length",
                 os.path.join(dirname, mean_wave_length),
                 "mean wave length",
+                salishseacast_grid_path,
                 wave_weights,
             )
         if significant_wave_height is not None:
@@ -740,6 +770,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "significant_wave_height",
                 os.path.join(dirname, significant_wave_height),
                 "significant wave height",
+                salishseacast_grid_path,
                 wave_weights,
             )
         if stokesU is not None:
@@ -748,6 +779,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "stokesU",
                 os.path.join(dirname, stokesU),
                 "Stokes U",
+                salishseacast_grid_path,
                 wave_weights,
             )
         if stokesV is not None:
@@ -756,6 +788,7 @@ def create_hdf5(yaml_filename, start_date, n_days):
                 "stokesV",
                 os.path.join(dirname, stokesV),
                 "Stokes V",
+                salishseacast_grid_path,
                 wave_weights,
             )
 
