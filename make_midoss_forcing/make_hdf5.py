@@ -68,7 +68,7 @@ def mung_array(SSC_gridded_array, array_slice_type):
         "2D",
         "3D",
     ), f"Invalid option {array_slice_type}. array_slice_type must be one of ('2D', '3D')"
-    if array_slice_type is "2D":
+    if array_slice_type == "2D":
         assert ndims in (
             2,
             3,
