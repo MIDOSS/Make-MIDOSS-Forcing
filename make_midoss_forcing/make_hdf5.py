@@ -168,7 +168,7 @@ def process_grid(
             )
         datearrays = produce_datearray(datetimelist)
         del datetimelist
-        if datatype is "ocean_velocity_u":
+        if datatype == "ocean_velocity_u":
             data = unstagger_dataarray(data.vozocrtx, "x").values
             data = mung_array(data, "3D")
             metadata = {
@@ -177,7 +177,7 @@ def process_grid(
                 "Minimum": numpy.array([-5.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "ocean_velocity_v":
+        elif datatype == "ocean_velocity_v":
             data = unstagger_dataarray(data.vomecrty, "y").values
             data = mung_array(data, "3D")
             metadata = {
@@ -186,7 +186,7 @@ def process_grid(
                 "Minimum": numpy.array([-5.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "ocean_velocity_w":
+        elif datatype == "ocean_velocity_w":
             data = data.vovecrtz.values
             data = mung_array(data, "3D")
             metadata = {
@@ -195,7 +195,7 @@ def process_grid(
                 "Minimum": numpy.array([-5.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "vert_eddy_diff":
+        elif datatype == "vert_eddy_diff":
             data = data.vert_eddy_diff.values
             data = mung_array(data, "3D")
             metadata = {
@@ -204,7 +204,7 @@ def process_grid(
                 "Minimum": numpy.array([0.0]),
                 "Units": b"m2/s",
             }
-        elif datatype is "salinity":
+        elif datatype == "salinity":
             data = data.vosaline.values
             data = mung_array(data, "3D")
             metadata = {
@@ -213,7 +213,7 @@ def process_grid(
                 "Minimum": numpy.array([-100.0]),
                 "Units": b"psu",
             }
-        elif datatype is "temperature":
+        elif datatype == "temperature":
             data = data.votemper.values
             data = mung_array(data, "3D")
             metadata = {
@@ -223,13 +223,13 @@ def process_grid(
                 "Units": b"?C",
             }
 
-        elif datatype is "e3t":
+        elif datatype == "e3t":
             data = data.e3t.values
             data = mung_array(data, "3D")
             data = data * tmask
             metadata = {"FillValue": numpy.array([0.0]), "Units": b"m"}
 
-        elif datatype is "sea_surface_height":
+        elif datatype == "sea_surface_height":
             data = data.sossheig.values
             data = mung_array(data, "2D")
             metadata = {
@@ -238,7 +238,7 @@ def process_grid(
                 "Minimum": numpy.array([-5.0]),
                 "Units": b"m",
             }
-        elif datatype is "wind_velocity_u":
+        elif datatype == "wind_velocity_u":
             data = data.u_wind.values
             data = mohid_interpolate.hrdps(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -248,7 +248,7 @@ def process_grid(
                 "Minimum": numpy.array([-100.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "wind_velocity_v":
+        elif datatype == "wind_velocity_v":
             data = data.v_wind.values
             data = mohid_interpolate.hrdps(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -258,7 +258,7 @@ def process_grid(
                 "Minimum": numpy.array([-100.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "mean_wave_period":
+        elif datatype == "mean_wave_period":
             data = data.t02.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -268,7 +268,7 @@ def process_grid(
                 "Minimum": numpy.array([0.0]),
                 "Units": b"s",
             }
-        elif datatype is "mean_wave_length":
+        elif datatype == "mean_wave_length":
             data = data.lm.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -278,7 +278,7 @@ def process_grid(
                 "Minimum": numpy.array([0.0]),
                 "Units": b"m",
             }
-        elif datatype is "significant_wave_height":
+        elif datatype == "significant_wave_height":
             data = data.hs.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -288,7 +288,7 @@ def process_grid(
                 "Minimum": numpy.array([-100.0]),
                 "Units": b"m",
             }
-        elif datatype is "whitecap_coverage":
+        elif datatype == "whitecap_coverage":
             data = data.wcc.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -298,7 +298,7 @@ def process_grid(
                 "Minimum": numpy.array([0.0]),
                 "Units": b"1",
             }
-        elif datatype is "stokesU":
+        elif datatype == "stokesU":
             data = data.uuss.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
@@ -308,7 +308,7 @@ def process_grid(
                 "Minimum": numpy.array([-9900.0]),
                 "Units": b"m/s",
             }
-        elif datatype is "stokesV":
+        elif datatype == "stokesV":
             data = data.vuss.values[1::2, :, :]
             data = mohid_interpolate.wavewatch(data, weighting_matrix_obj)
             data = mung_array(data, "2D")
