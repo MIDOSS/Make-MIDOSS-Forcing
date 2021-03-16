@@ -8,7 +8,7 @@ on:
     branches:
     - '*'
   schedule:
-    - cron: 43 4 16 * *  # 04:43 UTC on the 9th day of each month
+    - cron: 43 4 9 * *  # 04:43 UTC on the 9th day of each month
 
 jobs:
   sphinx-linkcheck:
