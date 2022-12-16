@@ -27,9 +27,9 @@ Make MIDOSS Forcing
 Make Salish Sea HDF5 Forcing Files for MIDOSS Runs
 
 **This repository has been archived because the model runs phase of the MIDOSS project
-has been completed.
+has been completed.**
 Please contact `@SusanEAllen`_ or `@DougLatornell`_ if you see a need for this repository
-to be re-activated.**
+to be re-activated.
 
 .. _@SusanEAllen: https://github.com/SusanEAllen
 .. _@DougLatornell: https://github.com/douglatornell
